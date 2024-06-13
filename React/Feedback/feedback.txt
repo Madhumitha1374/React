@@ -1,0 +1,84 @@
+//feedback
+
+
+// Write your React code here.
+
+import {Component} from 'react'
+import './index.css'
+
+class Feedback extends Component {
+  state = {isClicked: false}
+
+  emojiClick = () => {
+    this.setState(prevState => ({isClicked: !prevState.isClicked}))
+  }
+
+  renderFeedbackPage = () => {
+    const {isClicked} = this.state
+    if (!isClicked) {
+      return (
+        <div>
+          <h1>How satisfied are you with our customer support performance</h1>
+          <ul className="list">
+            <div className="item">
+              <li onClick={this.emojiClick}>😥</li>
+              <li>Sad</li>
+            </div>
+            <div className="item">
+              <li onClick={this.emojiClick}>😐</li>
+              <li>None</li>
+            </div>
+            <div className="item">
+              <li onClick={this.emojiClick}>😊</li>
+              <li>Happy</li>
+            </div>
+          </ul>
+        </div>
+      )
+    }
+    return (
+      <div>
+        <h1>❤️</h1>
+        <p>Thank you for your Feedback</p>
+      </div>
+    )
+  }
+
+  render() {
+    return <div className="main-container">{this.renderFeedbackPage()}</div>
+  }
+}
+
+export default Feedback
+
+
+//app/js
+
+import Feedback from './components/Feedback'
+
+import './App.css'
+
+const resources = {
+  emojis: [
+    {
+      id: 0,
+      name: 'Sad',
+      imageUrl: 'https://assets.ccbp.in/frontend/react-js/sad-emoji-img.png',
+    },
+    {
+      id: 1,
+      name: 'None',
+      imageUrl: 'https://assets.ccbp.in/frontend/react-js/none-emoji-img.png',
+    },
+    {
+      id: 2,
+      name: 'Happy',
+      imageUrl: 'https://assets.ccbp.in/frontend/react-js/happy-emoji-img.png',
+    },
+  ],
+  loveEmojiUrl: 'https://assets.ccbp.in/frontend/react-js/love-emoji-img.png',
+}
+
+const App = () => <Feedback resources={resources} />
+
+export default App

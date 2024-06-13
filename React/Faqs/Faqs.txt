@@ -1,0 +1,124 @@
+Faqs
+
+
+//app.js
+
+import Faqs from './components/Faqs'
+
+import './App.css'
+
+const faqsList = [
+  {
+    id: 0,
+    questionText: 'What is IRC?',
+    answerText:
+      'IRC is an Industry Ready Certification that represents your readiness for a job with the necessary skills.',
+  },
+  {
+    id: 1,
+    questionText: 'What is the medium of instruction?',
+    answerText:
+      'The courses would be delivered in English and Telugu. The program will be available in more vernacular languages soon.',
+  },
+  {
+    id: 2,
+    questionText:
+      'Is there an EMI option to pay the fee for CCBP Tech 4.0 Intensive?',
+    answerText:
+      'Yes, EMI support is available for credit cards. Please select EMI option while making payment for more information.',
+  },
+  {
+    id: 3,
+    questionText: 'How will my doubts be cleared? What is the mechanism?',
+    answerText:
+      'You can ask your doubts in the discussions section and course mentor will answer them. You can also see the doubts asked by other students.',
+  },
+]
+
+const App = () => <Faqs faqsList={faqsList} />
+
+export default App
+
+
+
+
+
+
+
+//Faqs
+index.js
+
+// Write your code here.
+
+import {Component} from 'react'
+import FaqItem from '../FaqItem/index'
+
+class Faqs extends Component {
+  render() {
+    const {faqsList} = this.props
+    return (
+      <div>
+        <h1>Faqs</h1>
+        <ul>
+          {faqsList.map(each => (
+            <FaqItem faqItem={each} id={each.id} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+export default Faqs
+
+
+
+
+//FaqItem index.js
+
+// Write your code here.
+
+import {Component} from 'react'
+import './index.css'
+
+class FaqItem extends Component {
+  state = {isClicked: false}
+
+  onclick = () => {
+    this.setState(prev => ({isClicked: !prev.isClicked}))
+  }
+
+  render() {
+    const {isClicked} = this.state
+    const img = isClicked
+      ? 'https://assets.ccbp.in/frontend/react-js/faqs-minus-icon-img.png'
+      : 'https://assets.ccbp.in/frontend/react-js/faqs-plus-icon-img.png'
+    const {faqItem} = this.props
+    const {questionText, answerText} = faqItem
+    return (
+      <div>
+        <div className="container">
+          <p>{questionText}</p>
+          <img src={img} alt="icon" onClick={this.onclick} />
+        </div>
+        {isClicked && (
+          <div>
+            <hr />
+            <p>{answerText}</p>
+          </div>
+        )}
+      </div>
+    )
+  }
+}
+
+export default FaqItem
+
+
+//index.css
+
+/* Write your code here. */
+
+.container {
+  display: flex;
+  flex-wrap: row;
+}

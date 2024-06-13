@@ -1,0 +1,26 @@
+// Write your code here.
+
+import {Component} from 'react'
+
+class LettersCalculator extends Component {
+  state = {letters: '', count: 0}
+
+  countLetter = event => {
+    this.state(prev => {
+      letters: event.target.value
+      count: prev.count + 1
+    })
+  }
+
+  render() {
+    const {count, letters} = this.state
+    return (
+      <div>
+        <input type="text" onChange={this.countLetter} value={letters} />
+        <button type="button"> No.of Letter {count}</button>
+      </div>
+    )
+  }
+}
+
+export default LettersCalculator

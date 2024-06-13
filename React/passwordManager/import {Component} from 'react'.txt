@@ -1,0 +1,59 @@
+import {Component} from 'react'
+import './index.css'
+import {v4 as uuidv4} from 'uuid'
+
+const passwordList = []
+
+class AddPassword extends Component {
+  state = {website: '', username: '', password: '', passwordsList: passwordList}
+
+  captureWebsite = event => {
+    this.setState({website: event.target.value})
+  }
+
+  captureUsername = event => {
+    this.setState({username: event.target.value})
+  }
+
+  capturePassword = event => {
+    this.setState({password: event.target.value})
+  }
+
+  addNewPassword = event => {
+    event.preventDefault()
+    const {website, username, password} = this.state
+    console.log(website, username, password)
+    this.setState({website: '', username: '', password: ''})
+  }
+
+  render() {
+    const {website, username, password} = this.state
+    return (
+      <div className="add-pswd-container">
+        <form onSubmit={this.addNewPassword}>
+          <input
+            type="text"
+            placeholder="Enter Website"
+            value={website}
+            onChange={this.captureWebsite}
+          />
+          <input
+            type="text"
+            placeholder="Enter UserName"
+            value={username}
+            onChange={this.captureUsername}
+          />
+          <input
+            type="password"
+            value={password}
+            placeholder="Enter Password"
+            onChange={this.capturePassword}
+          />
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    )
+  }
+}
+
+export default AddPassword

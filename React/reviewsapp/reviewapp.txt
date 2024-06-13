@@ -1,0 +1,37 @@
+reviewapp
+
+
+//review app index.js
+
+// Write your code here
+
+import {Component} from 'react'
+
+class ReviewsCarousel extends Component {
+  render() {
+    const {reviewsList} = this.props
+    console.log(reviewsList)
+    return (
+      // {reviewsList.map(eachItem => (
+      <div>
+        <h1>Reviews</h1>
+        <div>
+        <div>
+            <h1><--</h1>
+        </div>
+        <div>
+        <img src={imgUrl} alt="img" />
+          <h4>a</h4>
+          <p>b</p>
+          <p>c</p>
+        </div>
+          <div>
+              <h1>--></h1>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default ReviewsCarousel

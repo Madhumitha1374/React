@@ -1,0 +1,256 @@
+state = {
+    cartList: [],
+    amount: 0,
+    quantity: 1,
+  }
+
+  addCartItem = product => {
+    console.log(product)
+    this.setState(prevState => ({
+      cartList: [...prevState.cartList, product],
+      amount: prevState.amount + product.price * product.quantity,
+    }))
+  }
+
+  deleteCartItem = id => {
+    const {cartList} = this.state
+    const filteredList = cartList.filter(item => item.id !== id)
+    const productItem = cartList.filter(item => item.id === id)
+    this.setState({cartList: filteredList})
+    this.setState(prevState => ({
+      amount: prevState.amount - productItem[0].price * productItem[0].quantity,
+    }))
+  }
+
+  emptyCartItem = () => {
+    this.setState({cartList: [], amount: 0})
+  }
+
+  incrementCartItem = id => {
+    // const {quantity} = this.state
+    console.log(id)
+    const {cartList} = this.state
+    // const productItem = cartList.map(item => {
+    //   if (item.id === id) {
+    //     return {...item, quantity: quantity + 1}
+    //   }
+    //   return item
+    // })
+    console.log(cartList)
+    this.setState(prevState => ({
+      cartList: prevState.cartList.map(eachContact => {
+        if (id === eachContact.id) {
+          return {...eachContact, quantity: eachContact.quantity + 1}
+        }
+        return eachContact
+      }),
+    }))
+    console.log(cartList)
+
+    this.setState(prev => ({quantity: prev.quantity + 1}))
+    // console.log(productItem)
+  }
+
+  decrementCartItem = (id, quantity) => {
+    // const {quantity} = this.setState
+    const {cartList} = this.state
+    // console.log({quantity})
+    this.setState(prev => ({quantity: prev.quantity - 1}))
+    const productItem = cartList.map(item => {
+      if (item.id === id) {
+        return {...item, quantity: quantity - 1}
+      }
+      return item
+    })
+    console.log(productItem)
+  }
+
+  render() {
+    const {cartList, amount, quantity} = this.state
+
+    return (
+      <BrowserRouter>
+        <CartContext.Provider
+          value={{
+            cartList,
+            amount,
+            quantity,
+            addCartItem: this.addCartItem,
+            deleteCartItem: this.deleteCartItem,
+            emptyCartItem: this.emptyCartItem,
+            incrementCartItem: this.incrementCartItem,
+            decrementCartItem: this.decrementCartItem,
+          }}
+        >
+          <Switch>
+            <Route exact path="/login" component={LoginForm} />
+            <ProtectedRoute exact path="/" component={Home} />
+            <ProtectedRoute exact path="/products" component={Products} />
+            <ProtectedRoute
+              exact
+              path="/products/:id"
+              component={ProductItemDetails}
+            />
+            <ProtectedRoute exact path="/cart" component={Cart} />
+            <Route path="/not-found" component={NotFound} />
+            <Redirect to="not-found" />
+          </Switch>
+        </CartContext.Provider>
+      </BrowserRouter>
+    )
+  }
+}
+
+export default App
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const CartItem = props => (
+  <CartContext.Consumer>
+    {value => {
+      const {deleteCartItem, incrementCartItem, decrementCartItem} = value
+      const {cartItemDetails} = props
+      const {id, title, brand, price, imageUrl, quantity} = cartItemDetails
+      const onDeleteCartItem = () => {
+        deleteCartItem(id)
+      }
+      const incrementQuantity = () => {
+        incrementCartItem(id)
+      }
+
+      const decrementQuantity = () => {
+        decrementCartItem(id, quantity)
+      }
+
+      return (
+        <li className="cart-item">
+          <img className="cart-product-image" src={imageUrl} alt={title} />
+          <div className="cart-item-details-container">
+            <div className="cart-product-title-brand-container">
+              <p className="cart-product-title">{title}</p>
+              <p className="cart-product-brand">by {brand}</p>
+            </div>
+            <div className="cart-quantity-container">
+              <button
+                type="button"
+                className="quantity-controller-button"
+                onClick={decrementQuantity}
+              >
+                <BsDashSquare color="#52606D" size={12} />
+              </button>
+              <p className="cart-quantity">{quantity}</p>
+              <button
+                type="button"
+                className="quantity-controller-button"
+                onClick={incrementQuantity}
+              >
+                <BsPlusSquare color="#52606D" size={12} />
+              </button>
+            </div>
+            <div className="total-price-delete-container">
+              <p className="cart-total-price">Rs {price * quantity}/-</p>
+              <button
+                className="remove-button"
+                type="button"
+                onClick={onDeleteCartItem}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+          <button
+            className="delete-button"
+            type="button"
+            onClick={onDeleteCartItem}
+          >
+            <AiFillCloseCircle color="#616E7C" size={20} />
+          </button>
+        </li>
+      )
+    }}
+  </CartContext.Consumer>
+)
+
+export default CartItem
+
+
+
+
+
+const CartListView = () => (
+  <CartContext.Consumer>
+    {value => {
+      const {cartList, amount} = value
+      console.log(cartList)
+      return (
+        <>
+          <ul className="cart-list">
+            {cartList.map(eachCartItem => (
+              <CartItem key={eachCartItem.id} cartItemDetails={eachCartItem} />
+            ))}
+          </ul>
+          <div>
+            <h4>Order Total : Rs {amount}/-</h4>
+            <p>{cartList.length} items in cart</p>
+            <button type="button" className="shop-now-btn">
+              Checkout
+            </button>
+          </div>
+        </>
+      )
+    }}
+  </CartContext.Consumer>
+)
+
+export default CartListView
+
+
+
+
+
+
+
+
+
+
+const Cart = () => (
+  <CartContext>
+    {value => {
+      const {cartList, emptyCartItem} = value
+      const showCartLength = cartList.length === 0
+      const onClickRemove = () => {
+        emptyCartItem()
+      }
+      return (
+        <>
+          <Header />
+          {showCartLength ? (
+            <EmptyCartView />
+          ) : (
+            <div className="cart-container">
+              <div className="cart-content-container">
+                <div className="cart-header-container">
+                  <h1 className="cart-heading">My Cart</h1>
+                  <p onClick={onClickRemove}>Remove all</p>
+                </div>
+                <CartListView />
+              </div>
+            </div>
+          )}
+        </>
+      )
+    }}
+  </CartContext>
+)
+export default Cart

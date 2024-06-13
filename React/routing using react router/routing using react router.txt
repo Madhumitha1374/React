@@ -1,0 +1,275 @@
+routing using react router
+
+
+//app.js
+
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import Header from './components/Header'
+import Home from './components/Home'
+import About from './components/About'
+import Contact from './components/Contact'
+import NotFound from './components/NotFound'
+
+const App = () => (
+  <BrowserRouter>
+    <Header />
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/about" component={About} />
+      <Route exact path="/contact" component={Contact} />
+      <Route component={NotFound} />
+    </Switch>
+  </BrowserRouter>
+)
+
+export default App
+
+
+
+//app.css
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+//Header
+import {Link} from 'react-router-dom'
+import './index.css'
+
+const Header = () => (
+  <nav className="nav-header">
+    <div className="blog-container">
+      <h1 className="blog-title">My Blog</h1>
+      <ul className="nav-menu">
+        <li>
+          <Link className="nav-link" to="/">
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link className="nav-link" to="/about">
+            About
+          </Link>
+        </li>
+        <li>
+          <Link className="nav-link" to="/contact">
+            Contact
+          </Link>
+        </li>
+      </ul>
+    </div>
+  </nav>
+)
+
+export default Header
+
+
+.nav-header {
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('https://assets.ccbp.in/frontend/react-js/books-blog-bg.png');
+}
+.nav-menu {
+  list-style-type: none;
+  display: flex;
+  margin-left: -40px;
+}
+
+.nav-link {
+  text-decoration: none;
+  margin: 10px;
+  color: white;
+  font-family: 'Roboto';
+}
+
+.blog-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.blog-title {
+  font-family: 'Roboto';
+  color: white;
+  font-size: 16px;
+}
+.sub-title {
+  color: white;
+  font-family: 'Roboto';
+  margin-top: 0px;
+}
+
+li {
+  list-style-type: none;
+  text-decoration: none;
+  margin: 10px;
+  color: white;
+  font-family: 'Roboto';
+  cursor: pointer;
+}
+
+@media screen and (min-width: 575px) {
+  .blog-title {
+    font-family: 'Roboto';
+    color: white;
+    font-size: 34px;
+  }
+}
+
+
+// home
+
+import './index.css'
+
+const Home = () => (
+  <div className="home-container">
+    <img
+      src="https://assets.ccbp.in/frontend/react-js/home-blog-img.png"
+      alt="home"
+      className="home-img"
+    />
+    <h1 className="home-heading">Home</h1>
+  </div>
+)
+
+export default Home
+
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+.home-img {
+  width: 150px;
+}
+.home-heading {
+  font-family: 'Roboto';
+  font-weight: 500;
+  line-height: 56px;
+  color: #3d3d3d;
+}
+
+
+// about
+
+import './index.css'
+
+const About = () => (
+  <div className="about-container">
+    <img
+      src="https://assets.ccbp.in/frontend/react-js/about-blog-img.png"
+      alt="about"
+      className="about-img"
+    />
+    <h1 className="about-heading">About</h1>
+    <p className="about-paragraph">
+      I love to create! I am a front-end web developer
+    </p>
+  </div>
+)
+
+export default About
+
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+.about-img {
+  width: 150px;
+}
+.about-heading {
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #3d3d3d;
+}
+.about-paragraph {
+  font-family: 'Roboto';
+  font-size: 20px;
+  text-align: center;
+  color: #555555;
+}
+
+
+// contact
+
+import './index.css'
+
+const Contact = () => (
+  <div className="contact-container">
+    <img
+      src="https://assets.ccbp.in/frontend/react-js/contact-blog-img.png"
+      alt="contact"
+      className="contact-img"
+    />
+    <h1 className="contact-heading">Contact</h1>
+  </div>
+)
+
+export default Contact
+
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+.contact-img {
+  width: 150px;
+}
+.contact-heading {
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #3d3d3d;
+}
+
+
+
+// not found
+
+import './index.css'
+
+const NotFound = () => (
+  <div className="not-found-container">
+    <img
+      src="https://assets.ccbp.in/frontend/react-js/not-found-blog-img.png"
+      alt="not-found"
+      className="not-found-img"
+    />
+  </div>
+)
+
+export default NotFound
+
+
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+.not-found-img {
+  width: 400px;
+}

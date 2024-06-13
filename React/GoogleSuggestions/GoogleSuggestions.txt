@@ -1,0 +1,78 @@
+//app.js
+
+import GoogleSuggestions from './components/GoogleSuggestions'
+
+import './App.css'
+
+const suggestionsList = [
+  {id: 1, suggestion: 'Price of Ethereum'},
+  {id: 2, suggestion: 'Oculus Quest 2 specs'},
+  {id: 3, suggestion: 'Tesla Share Price'},
+  {id: 4, suggestion: 'Price of Ethereum today'},
+  {id: 5, suggestion: 'Latest trends in AI'},
+  {id: 6, suggestion: 'Latest trends in ML'},
+]
+
+const App = () => <GoogleSuggestions suggestionsList={suggestionsList} />
+
+export default App
+
+
+//googlesuggestions index.js
+
+// Write your code here
+
+import {Component} from 'react'
+import SuggestionItem from '../SuggestionItem/index'
+
+class GoogleSuggestions extends Component {
+  state = {searchInput: ''}
+
+  inputChange = event => {
+    this.setState = {searchInput: event.target.value}
+  }
+
+  displayValue = suggestion => {
+    this.setState({searchInput: suggestion})
+  }
+
+  render() {
+    const {suggestionsList} = this.props
+    const {searchInput} = this.state
+    return (
+      <div>
+        <input type="text" onChange={this.inputChange} value={searchInput} />
+        <h1>Hi</h1>
+        {suggestionsList.map(eachItem => (
+          <SuggestionItem
+            suggestionItem={eachItem}
+            key={eachItem.id}
+            displayValue={this.displayValue}
+          />
+        ))}
+      </div>
+    )
+  }
+}
+export default GoogleSuggestions
+
+//suggestion item index.js
+
+// Write your code here
+
+const SuggestionItem = props => {
+  const {suggestionItem, displayValue} = props
+  const {suggestion} = suggestionItem
+  const selectSuggestion = () => {
+    displayValue(suggestion)
+  }
+  return (
+    <div>
+      <button type="button" onClick={selectSuggestion}>
+        <p>{suggestion}</p>
+      </button>
+    </div>
+  )
+}
+export default SuggestionItem
+

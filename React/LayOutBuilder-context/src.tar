@@ -1,0 +1,277 @@
+
+                                                                                                                                                                                      App.js       
+                                                                                       000644  000000  000000  00000002337 14471620766 010324  0                                                                                                    import {Component} from 'react'
+
+import ConfigurationController from './components/ConfigurationController'
+
+import Layout from './components/Layout'
+import ConfigurationContext from './context/ConfigurationContext'
+
+import './App.css'
+
+class App extends Component {
+  state = {showContent: true, showLeftNavbar: true, showRightNavbar: true}
+
+  onToggleShowContent = () => {
+    this.setState(prevState => ({showContent: !prevState.showContent}))
+  }
+
+  onToggleShowLeftNavbar = () => {
+    this.setState(prevState => ({showLeftNavbar: !prevState.showLeftNavbar}))
+  }
+
+  onToggleShowRightNavbar = () => {
+    this.setState(prevState => ({showRightNavbar: !prevState.showRightNavbar}))
+  }
+
+  render() {
+    const {showContent, showLeftNavbar, showRightNavbar} = this.state
+    return (
+      <ConfigurationContext.Provider
+        value={{
+          showRightNavbar,
+          showContent,
+          showLeftNavbar,
+          onToggleShowContent: this.onToggleShowContent,
+          onToggleShowLeftNavbar: this.onToggleShowLeftNavbar,
+          onToggleShowRightNavbar: this.onToggleShowRightNavbar,
+        }}
+      >
+        <ConfigurationController />
+        <Layout />
+      </ConfigurationContext.Provider>
+    )
+  }
+}
+
+export default App
+                                                                                                                                                                                                                                                                                                 components   
+                                                                                       000755  000000  000000  00000000000 14471604446 011344  5                                                                                                    
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root'),
+)
+
+
+
+                                                                                                                                                                                                                                                                import React from 'react'
+
+const ConfigurationContext = React.createContext({
+  showContent: true,
+  showLeftNavbar: true,
+  showRightNavbar: true,
+  onToggleShowContent: () => {},
+  onToggleShowLeftNavbar: () => {},
+  onToggleShowRightNavbar: () => {},
+})
+
+export default ConfigurationContext
+                                                                                                                                                                                                                          components/Body/index.css                                                                           000644  000000  000000  00000000565 14471615070 014142  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         /* Write your CSS here */
+
+.left {
+  background-color: #e2e8f0;
+  padding: auto;
+  justify-content: center;
+}
+
+.right {
+  background-color: #e2e8f0;
+  padding: auto;
+  justify-content: center;
+}
+.content {
+  background-color: #f1f5f9;
+  padding: auto;
+  justify-content: center;
+}
+.bodyContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+                                                                                                                                           components/Body/index.js                                                                            000644  000000  000000  00000002621 14471621704 013762  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         // Write your code here
+import ConfigurationContext from '../../context/ConfigurationContext'
+import './index.css'
+
+const Body = () => {
+  const renderLeftContent = () => (
+    <div className="left">
+      <h1>Left NavBar Menu</h1>
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+      </ul>
+    </div>
+  )
+
+  const renderRightContent = () => (
+    <div className="right">
+      <h1>Right NavBar Menu</h1>
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+      </ul>
+    </div>
+  )
+
+  const renderMiddleContent = () => (
+    <div className="content">
+      <h1>Content</h1>
+      <p>
+        You can now view layout-builder in the browser. Local:
+        http://localhost:3001 On Your Network: http://172.18.0.2:3001 Note that
+        the development build is not optimized. To create a production build,
+        use npm run build.
+      </p>
+    </div>
+  )
+  return (
+    <ConfigurationContext.Consumer>
+      {value => {
+        const {showRightNavbar, showContent, showLeftNavbar} = value
+        return (
+          <div className="bodyContainer">
+            {showLeftNavbar && renderLeftContent()}
+            {showContent && renderMiddleContent()}
+            {showRightNavbar && renderRightContent()}
+          </div>
+        )
+      }}
+    </ConfigurationContext.Consumer>
+  )
+}
+
+export default Body
+                                                                                                               components/ConfigurationController/index.css                                                        000644  000000  000000  00000000211 14471607463 020113  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         /* Write your CSS here */
+
+.container {
+  border: 2px solid black;
+  padding-left: 100px;
+  background-color: #475569;
+  color: white;
+}
+                                                                                                                                                                                                                                                                                                                                                                                       components/ConfigurationController/index.js                                                         000644  000000  000000  00000003104 14471621007 017731  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         // Write your code here
+import ConfigurationContext from '../../context/ConfigurationContext'
+import './index.css'
+
+const ConfigurationController = () => (
+  <ConfigurationContext.Consumer>
+    {value => {
+      const {
+        showRightNavbar,
+        showContent,
+        showLeftNavbar,
+        onToggleShowContent,
+        onToggleShowLeftNavbar,
+        onToggleShowRightNavbar,
+      } = value
+      const onChangeContent = () => {
+        onToggleShowContent()
+      }
+      const onChangeLeftBar = () => {
+        onToggleShowLeftNavbar()
+      }
+      const onChangeRightBar = () => {
+        onToggleShowRightNavbar()
+      }
+      return (
+        <div className="container">
+          <h1>Layout</h1>
+          <div>
+            <input
+              type="checkbox"
+              id="content"
+              value={showContent}
+              onChange={onChangeContent}
+            />
+            <label htmlFor="content">Content</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="leftNavBar"
+              value={showLeftNavbar}
+              onChange={onChangeLeftBar}
+            />
+            <label htmlFor="leftNavBar">LeftNavBar</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="rightNavBar"
+              value={showRightNavbar}
+              onChange={onChangeRightBar}
+            />
+            <label htmlFor="rightNavBar">RightNavBar</label>
+          </div>
+        </div>
+      )
+    }}
+  </ConfigurationContext.Consumer>
+)
+export default ConfigurationController
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            components/Footer/index.css                                                                         000644  000000  000000  00000000153 14471610013 014464  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         /* Write your CSS here */
+
+.footer {
+  background-color: #cbd5e1;
+  padding: 30px;
+  text-align: center;
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                     components/Footer/index.js                                                                          000644  000000  000000  00000000235 14471610020 014307  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         // Write your code here
+
+import './index.css'
+
+const Footer = () => (
+  <footer className="footer">
+    <h1>Footer</h1>
+  </footer>
+)
+
+export default Footer
+                                                                                                                                                                                                                                                                                                                                                                   components/Header/index.css                                                                         000644  000000  000000  00000000153 14471607706 014435  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         /* Write your CSS here */
+
+.header {
+  background-color: #cbd5e1;
+  padding: 30px;
+  text-align: center;
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                     components/Header/index.js                                                                          000644  000000  000000  00000000234 14471607660 014260  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         // Write your code here
+import './index.css'
+
+const Header = () => (
+  <header className="header">
+    <h1>Header</h1>
+  </header>
+)
+
+export default Header
+                                                                                                                                                                                                                                                                                                                                                                    components/Layout/index.css                                                                         000644  000000  000000  00000000101 14471610350 014500  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         /* Write your CSS here */
+
+.container {
+  /* margin: 100px; */
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                               components/Layout/index.js                                                                          000644  000000  000000  00000000407 14471610664 014345  0                                                                                                    ustar 00                                                                000000  000000                                                                                                                                                                         // Write your code here
+import Header from '../Header/index'
+import Footer from '../Footer/index'
+import Body from '../Body/index'
+
+const Layout = () => (
+  <div className="container1">
+    <Header />
+    <Body />
+    <Footer />
+  </div>
+)
+
+export default Layout
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

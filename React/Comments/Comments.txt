@@ -1,0 +1,148 @@
+Comments
+
+//comments index.js
+import {Component} from 'react'
+import {v4 as uuidv4} from 'uuid'
+import CommentItem from '../CommentItem/index'
+
+const initialContainerBackgroundClassNames = [
+  'amber',
+  'blue',
+  'orange',
+  'emerald',
+  'teal',
+  'red',
+  'light-blue',
+]
+
+const commentList = []
+// Write your code here
+
+class Comments extends Component {
+  state = {commentsList: commentList, heading: '', text: ''}
+
+  heading = event => {
+    this.setState({heading: event.target.value})
+  }
+
+  textArea = event => {
+    this.setState({text: event.target.value})
+  }
+
+  changeLikeIcon = id => {
+    // const {commentsList} = this.state
+    this.setState(prevState => ({
+      commentsList: prevState.commentsList.map(eachItem => {
+        if (id === eachItem.id) {
+          return {...eachItem, isLiked: !eachItem.isLiked}
+        }
+        return eachItem
+      }),
+    }))
+  }
+
+  commentDelete = id => {
+    const {commentsList} = this.state
+    const filteredList = commentsList.filter(eachItem => eachItem.id !== id)
+    console.log(filteredList)
+    this.setState((commentsList: filteredList))
+  }
+
+  onsubmit = event => {
+    event.preventDefault()
+    const {heading, text, commentsList} = this.state
+    const newComment = {
+      id: uuidv4(),
+      heading,
+      text,
+      isLiked: false,
+    }
+
+    this.setState({commentsList: [...commentsList, newComment]})
+  }
+
+  render() {
+    const {commentsList} = this.state
+    return (
+      <div>
+        <h1>Comments</h1>
+        <p>Say something about 4.0 technologies</p>
+        <form onSubmit={this.onsubmit}>
+          <input type="text" onChange={this.heading} />
+          <br />
+          <textarea cols={20} rows={10} onChange={this.textArea} />
+          <button type="submit">Add Comment</button>
+        </form>
+        <hr />
+        <div>
+          <p>
+            <span>0 </span>Comments
+          </p>
+          <ul>
+            {commentsList.map(eachItem => (
+              <CommentItem
+                commentsList={eachItem}
+                key={eachItem.id}
+                changeLikeIcon={this.changeLikeIcon}
+                commentDelete={this.commentDelete}
+              />
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Comments
+
+
+
+
+
+
+//comment Item index.js
+
+// Write your code here
+
+const CommentItem = props => {
+  const {commentsList, changeLikeIcon, commentDelete} = props
+  const {heading, text, isLiked, id} = commentsList
+  const changeLike = () => {
+    changeLikeIcon(id)
+  }
+
+  const deleteComment = () => {
+    commentDelete(id)
+  }
+
+  const img = isLiked
+    ? 'https://assets.ccbp.in/frontend/react-js/comments-app/liked-img.png'
+    : 'https://assets.ccbp.in/frontend/react-js/comments-app/like-img.png'
+  return (
+    <div>
+      <h6>{heading}</h6>
+      <p>{text}</p>
+      <img src={img} alt="like" onClick={changeLike} />
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/comments-app/delete-img.png"
+        alt="delete"
+        onClick={deleteComment}
+      />
+    </div>
+  )
+}
+export default CommentItem
+
+
+
+
+//app.js
+
+import Comments from './components/Comments'
+
+import './App.css'
+
+const App = () => <Comments />
+
+export default App

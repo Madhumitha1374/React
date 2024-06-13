@@ -1,0 +1,471 @@
+//app.js
+import {Component} from 'react'
+
+import TabItem from './components/TabItem'
+import ProjectItem from './components/ProjectItem'
+import Header from './components/Header'
+
+import './App.css'
+
+const tabsList = [
+  {tabId: 'STATIC', displayText: 'Static'},
+  {tabId: 'RESPONSIVE', displayText: 'Responsive'},
+  {tabId: 'DYNAMIC', displayText: 'Dynamic'},
+]
+
+const projectsList = [
+  {
+    projectId: 0,
+    category: 'STATIC',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-s3-img.png',
+    title: 'Music Page',
+    description:
+      'The music page enables the users to browse through the images of all-time favorite music albums.',
+  },
+  {
+    projectId: 1,
+    category: 'STATIC',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-s4-img.png',
+    title: 'Tourism Website',
+    description:
+      'A tourism website enables the user to browse through the images of popular destinations.',
+  },
+  {
+    projectId: 2,
+    category: 'STATIC',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-s1-img.png',
+    title: 'Advanced Technologies',
+    description:
+      'A website that gives you a basic understanding of Advanced Technologies.',
+  },
+  {
+    projectId: 4,
+    category: 'RESPONSIVE',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-r4-img.png',
+    title: 'VR Website',
+    description:
+      'VR Website enables users to explore AR and VR Products and Industry happenings.',
+  },
+  {
+    projectId: 5,
+    category: 'RESPONSIVE',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-r2-img.png',
+    title: 'Food Munch',
+    description: 'Food Much Website is a user-centric food tech website.',
+  },
+  {
+    projectId: 6,
+    category: 'RESPONSIVE',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-r3-img.png',
+    title: 'Portfolio',
+    description:
+      'A portfolio is the best alternative for a resume to showcase your skills to the digital world.',
+  },
+
+  {
+    projectId: 8,
+    category: 'DYNAMIC',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-d3-img.png',
+    title: 'Speed Typing Test',
+    description:
+      'Speed Typing Test Application is capable of calculating the time to type the randomly generated quote.',
+  },
+  {
+    projectId: 9,
+    category: 'DYNAMIC',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-d1-img.png',
+    title: 'Random Joke Page',
+    description:
+      'Random Joke Page is an API-based dynamic Web Application that generates a new joke.',
+  },
+  {
+    projectId: 10,
+    category: 'DYNAMIC',
+    imageURL: 'https://assets.ccbp.in/frontend/react-js/projects-d2-img.png',
+    title: 'Sizing An Image',
+    description:
+      'This is a dynamic web application capable of adjusting the size of an element using DOM manipulations.',
+  },
+]
+
+class App extends Component {
+  state = {initialList: projectsList}
+
+  onClickTab = tabId => {
+    console.log(tabId)
+    const filteredList = projectsList.filter(eachItem =>
+      eachItem.category.includes(tabId),
+    )
+    console.log(filteredList)
+    this.setState({initialList: filteredList})
+  }
+
+  render() {
+    const {initialList} = this.state
+    return (
+      <div className="app-container">
+        <Header />
+        <h1 className="title">Projects</h1>
+        <p className="description">
+          Your skills and achievements showcase your strengths and abilities.
+          Speak about any new skills or software you learnt to perform the
+          project responsibilities.
+        </p>
+
+        <ul className="tabs-container">
+          {tabsList.map(tabDetails => (
+            <TabItem
+              key={tabDetails.tabId}
+              tabDetails={tabDetails}
+              onClickTab={this.onClickTab}
+            />
+          ))}
+        </ul>
+
+        <ul className="project-list-container">
+          {initialList.map(projectDetails => (
+            <ProjectItem
+              key={projectDetails.projectId}
+              projectDetails={projectDetails}
+            />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+
+export default App
+
+
+//app.css
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', ' Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+.app-container {
+  max-width: 1110px;
+  margin: auto;
+}
+
+.title {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 56px;
+  color: #3e4c59;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 992px) {
+  .title {
+    font-size: 48px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+  }
+}
+
+.description {
+  max-width: 300px;
+  font-family: 'Roboto';
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: #616e7c;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+@media screen and (min-width: 992px) {
+  .description {
+    max-width: 730px;
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+.tabs-container {
+  max-width: 300px;
+  margin: auto;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+}
+
+@media screen and (min-width: 992px) {
+  .tabs-container {
+    max-width: 455px;
+  }
+}
+
+.project-list-container {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  margin-bottom: 50px;
+}
+
+@media screen and (min-width: 992px) {
+  .project-list-container {
+    margin-bottom: 150px;
+  }
+}
+
+
+//tabitem index.js
+
+import './index.css'
+
+const TabItem = props => {
+  const {tabDetails, onClickTab} = props
+  const {displayText, tabId} = tabDetails
+  const showProjects = () => {
+    onClickTab(tabId)
+  }
+
+  return (
+    <li className="tab-item-container ">
+      <button type="button" className="tab-btn" onClick={showProjects}>
+        {displayText}
+      </button>
+    </li>
+  )
+}
+
+export default TabItem
+
+//index.css
+
+.tab-item-container {
+  padding-right: 4px;
+}
+
+@media screen and (min-width: 992px) {
+  .tab-item-container {
+    padding-right: 24px;
+  }
+}
+
+.tab-btn {
+  font-family: 'Roboto';
+  color: #9aa5b1;
+  font-weight: 500;
+  font-size: 16px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 992px) {
+  .tab-btn {
+    font-size: 24px;
+  }
+}
+
+.active-tab-btn {
+  border-bottom: 2px solid #0b69ff;
+  color: #3e4c59;
+}
+
+
+
+//project item index.js
+
+import './index.css'
+
+const ProjectItem = props => {
+  const {projectDetails} = props
+  const {projectId, imageURL, description, title} = projectDetails
+  return (
+    <>
+      <li className="project-item-container">
+        <img
+          className="project-item-image"
+          src={imageURL}
+          alt={`project-item ${projectId}`}
+        />
+        <div className="project-item-details-container">
+          <h1 className="project-item-title">{title}</h1>
+          <p className="project-item-description">{description}</p>
+        </div>
+      </li>
+    </>
+  )
+}
+
+export default ProjectItem
+
+//index.css
+
+.project-item-container {
+  width: 339px;
+  background: #ffffff;
+  box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+}
+
+.project-item-image {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.project-item-details-container {
+  padding: 32px 24px 32px 24px;
+}
+
+.project-item-title {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  color: #183b56;
+  margin: 0;
+}
+
+.project-item-description {
+  font-family: 'Roboto';
+  font-size: 18px;
+  line-height: 32px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  color: #7b8794;
+}
+
+
+//header index.js
+
+import './index.css'
+
+const Header = () => (
+  <nav className="nav-header">
+    <div className="nav-content">
+      <p className="website-logo">RA</p>
+      <ul className="nav-menu">
+        <li>
+          <img
+            className="social-network-img"
+            src="https://assets.ccbp.in/frontend/react-js/projects-linkedin-img.png"
+            alt="Linked In"
+          />
+        </li>
+        <li>
+          <img
+            className="social-network-img"
+            src="https://assets.ccbp.in/frontend/react-js/projects-github-img.png"
+            alt="Git Hub"
+          />
+        </li>
+        <li>
+          <img
+            className="social-network-img"
+            src="https://assets.ccbp.in/frontend/react-js/projects-twitter-img.png"
+            alt="Twitter"
+          />
+        </li>
+      </ul>
+    </div>
+  </nav>
+)
+
+export default Header
+
+
+
+//index.css
+
+.nav-header {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  margin: auto;
+  height: 60px;
+  max-width: 1110px;
+}
+
+@media screen and (min-width: 992px) {
+  .nav-header {
+    width: 100%;
+    height: 100px;
+  }
+}
+
+.nav-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.website-logo {
+  font-size: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 900;
+  color: #1d4ed8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #dbeafe;
+}
+
+@media screen and (min-width: 768px) {
+  .website-logo {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-self: center;
+  flex: 1;
+  list-style-type: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.social-network-img {
+  width: 30px;
+  margin-left: 15px;
+}
+
+@media screen and (min-width: 768px) {
+  .social-network-img {
+    width: 35px;
+    border-radius: 4px;
+    margin-left: 32px;
+  }
+}
+

@@ -1,0 +1,89 @@
+//app.js
+
+import CashWithdrawal from './components/CashWithdrawal'
+
+import './App.css'
+
+const denominationsList = [
+  {
+    id: 1,
+    value: 50,
+  },
+  {
+    id: 2,
+    value: 100,
+  },
+  {
+    id: 3,
+    value: 200,
+  },
+  {
+    id: 4,
+    value: 500,
+  },
+]
+
+const App = () => <CashWithdrawal denominationsList={denominationsList} />
+
+export default App
+
+
+//Cashwithdrawl
+
+// Write your code here
+
+import {Component} from 'react'
+import DenominationItem from '../DenominationItem/index'
+
+class CashWithdrawal extends Component {
+  state = {amount: 2000}
+
+  click = value => {
+    const {amount} = this.state
+    const result = amount - value
+    this.setState({amount: result})
+  }
+
+  render() {
+    const {denominationsList} = this.props
+    const {amount} = this.state
+    return (
+      <div>
+        <h1>{amount}</h1>
+        {denominationsList.map(eachItem => (
+          <DenominationItem
+            denominationsList={eachItem}
+            key={eachItem.id}
+            click={this.click}
+          />
+        ))}
+      </div>
+    )
+  }
+}
+
+export default CashWithdrawal
+
+
+//denominationItem index.js
+
+// Write your code here
+
+const DenominationItem = props => {
+  const {denominationsList, click} = props
+  const {value} = denominationsList
+
+  const buttonClick = () => {
+    click(value)
+  }
+
+  return (
+    <div>
+      <button type="button" onClick={buttonClick}>
+        {value}
+      </button>
+    </div>
+  )
+}
+
+export default DenominationItem

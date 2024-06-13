@@ -1,0 +1,164 @@
+app.js
+
+import DestinationSearch from './components/DestinationSearch'
+
+import './App.css'
+
+const destinationsList = [
+  {
+    id: 1,
+    name: 'Melaka Mosque',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/melaka-mosque-img.png',
+  },
+  {
+    id: 2,
+    name: 'Shrubland',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/shrubland-img.png',
+  },
+  {
+    id: 3,
+    name: 'New York',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/new-york-img.png',
+  },
+  {
+    id: 4,
+    name: 'Escarpment',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/escarpment-img.png',
+  },
+  {
+    id: 5,
+    name: 'Westminster Abbey',
+    imgUrl:
+      'https://assets.ccbp.in/frontend/react-js/westminster-abbey-img.png',
+  },
+  {
+    id: 6,
+    name: 'South Downs National Park',
+    imgUrl:
+      'https://assets.ccbp.in/frontend/react-js/south-downs-national-park-img.png',
+  },
+  {
+    id: 7,
+    name: 'National Historic Site',
+    imgUrl:
+      'https://assets.ccbp.in/frontend/react-js/national-historic-site-img.png',
+  },
+  {
+    id: 8,
+    name: 'Tower Bridge',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/tower-bridge-img.png',
+  },
+  {
+    id: 9,
+    name: 'Arc Here',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/arc-here-img.png',
+  },
+  {
+    id: 10,
+    name: 'Steeple',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/steeple-img.png',
+  },
+  {
+    id: 11,
+    name: 'Glaciokarst',
+    imgUrl: 'https://assets.ccbp.in/frontend/react-js/glaciokarst-img.png',
+  },
+  {
+    id: 12,
+    name: 'Parco Nazionale delle Cinque Terre',
+    imgUrl:
+      'https://assets.ccbp.in/frontend/react-js/parco-nazionale-delle-cinque-terre-img.png',
+  },
+]
+
+const App = () => <DestinationSearch destinationsList={destinationsList} />
+
+export default App
+
+
+
+
+
+
+
+
+
+destinationItem
+
+
+// Write your code here
+
+import {Component} from 'react'
+import './index.css'
+
+class DestinationItem extends Component {
+  render() {
+    const {filteredItem} = this.props
+    const {name, imgUrl} = filteredItem
+    return (
+      <div className="col-6">
+        <img src={imgUrl} alt="destination" className="image" />
+        <p>{name}</p>
+      </div>
+    )
+  }
+}
+
+export default DestinationItem
+
+
+
+
+destination search
+
+
+// Write your code here
+
+import {Component} from 'react'
+import DestinationItem from '../DestinationItem/index'
+
+class DestinationSearch extends Component {
+  state = {searchInput: ''}
+
+  search = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  render() {
+    const {searchInput} = this.state
+    console.log(searchInput)
+    const {destinationsList} = this.props
+    const filteredList = destinationsList.filter(eachItem =>
+      eachItem.name.includes(searchInput),
+    )
+    return (
+      <div>
+        <input type="text" onChange={this.search} />
+        {filteredList.map(eachItem => (
+          <DestinationItem filteredItem={eachItem} key={eachItem.id} />
+        ))}
+      </div>
+    )
+  }
+}
+
+export default DestinationSearch
+
+
+
+
+
+
+
+index.js
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root'),
+)

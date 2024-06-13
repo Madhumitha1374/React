@@ -1,0 +1,102 @@
+stopwatch
+
+
+
+//app.js
+
+
+import Stopwatch from './components/Stopwatch'
+
+import './App.css'
+
+const App = () => <Stopwatch />
+
+export default App
+
+
+
+//stopwatch index.js
+
+// Write your code here
+
+import {Component} from 'react'
+
+class Stopwatch extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {timeInSec: 0, isTimeRunning: false}
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.intervalId)
+  }
+
+  onReset = () => {
+    clearInterval(this.intervalId)
+    this.setState({timeInSec: 0, isTimeRunning: false})
+  }
+
+  onStop = () => {
+    clearInterval(this.intervalId)
+    this.setState({isTimeRunning: false})
+  }
+
+  setTimerInSeconds = () => {
+    this.setState(prevState => ({timeInSec: prevState.timeInSec + 1}))
+  }
+
+  onStart = () => {
+    this.intervalId = setInterval(this.setTimerInSeconds, 1000)
+    this.setState({isTimeRunning: true})
+  }
+
+  renderInSeconds = () => {
+    const {timeInSec} = this.state
+    const seconds = Math.floor(timeInSec % 60)
+    if (seconds < 10) {
+      return `0${seconds}`
+    }
+    return seconds
+  }
+
+  renderInMinutes = () => {
+    const {timeInSec} = this.state
+    const minutes = Math.floor(timeInSec / 60)
+    if (minutes < 10) {
+      return `0${minutes}`
+    }
+    return minutes
+  }
+
+  render() {
+    const {isTimeRunning} = this.state
+    const time = `${this.renderInMinutes()} : ${this.renderInSeconds()}`
+    return (
+      <div>
+        <h1>Stopwatch</h1>
+        <div>
+          <p>Timer</p>
+          <h4>{time}</h4>
+          <div>
+            <button
+              type="button"
+              onClick={this.onStart}
+              disabled={isTimeRunning}
+            >
+              Start
+            </button>
+            <button type="button" onClick={this.onStop}>
+              Stop
+            </button>
+            <button type="button" onClick={this.onReset}>
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Stopwatch
+
